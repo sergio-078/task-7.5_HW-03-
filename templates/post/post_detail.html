@@ -1,0 +1,31 @@
+<!--  наследуемся от шаблона default.html, который мы создавали -->
+{% extends 'flatpages/default.html' %}
+
+{% load censor %}
+
+<!-- Название у нас будет News -->
+{% block title %}
+Post
+{% endblock title %}
+
+<!-- В контенте на странице мы выводим саму новость, идентификатор которой был передан в url -->
+{% block content %}
+<h2>{{ postdetail }}</h2>
+    <article class="media content-section">
+          <div class="media-body">
+            <div class="article-metadata">
+                <a class="text-muted"> {{ postdetail.get_categoryType_display }} автора: </a>
+                <a class="mr-2" href="#"> {{ postdetail.author }}, </a>
+                <a class="text-muted">дата публикации: {{ postdetail.dateCreation|date:"d.m.Y" }}</a>
+            </div>
+            <p class="article-content">{{ postdetail.text|censor_w }}</p>
+          </div>
+    </article>
+{% if perms.post.change_post%}
+<a class="mr-2" href="{% url 'post_edit' pk=postdetail.id %}"> Редактировать </a>
+{% endif %}
+{% if perms.post.delete_post%}
+<a class="mr-2" href="{% url 'post_delete' pk=postdetail.id %}"> Удалить </a>
+{% endif %}
+
+{% endblock content %}

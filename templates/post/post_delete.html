@@ -1,0 +1,17 @@
+{% extends 'flatpages/default.html' %}
+{% load censor %}
+
+{% block content %}
+ <h4>{{ postdelete.title }}</h4>
+ <a>{{ postdelete.text }}</a>
+ <hr>
+ <a>{{ postdelete.get_categoryType_display }} автора: {{ postdelete.author }},</a>
+ <a>дата публикации: {{ postdelete.dateCreation|date:"d.m.Y" }}</a>
+ <hr>
+
+  <p>Вы уверены, что хотите удалить эту публикацию?</p>
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit">Удалить</button>
+  </form>
+{% endblock %}

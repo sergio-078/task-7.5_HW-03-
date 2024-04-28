@@ -1,0 +1,43 @@
+{% extends "flatpages/default.html" %}
+{% load censor %}
+{% load custom_tags %}
+
+
+{% block content %}
+<h1> Личный кабинет </h1>
+    <hr>
+
+<fieldset>
+  <legend>Подписка на категории</legend>
+
+{#  <label for="coding">Кодирование</label>#}
+{#  <input type="checkbox" id="coding" name="activities" value="coding">#}
+{##}
+{#  <label for="music">Музыка</label>#}
+{#  <input type="checkbox" id="music" name="activities" value="music">#}
+{#<hr>#}
+
+    {% for category in categories  %}
+        <p>
+            <label>
+                    <input type="checkbox" name="subscribe">
+                    {{ category.name }}
+            </label>
+
+            <form method="post">
+
+            </form>
+        </p>
+    {% endfor %}
+
+
+<hr>
+
+
+
+</fieldset>
+
+
+    <hr>
+
+{% endblock content %}

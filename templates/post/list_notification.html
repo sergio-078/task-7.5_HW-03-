@@ -1,0 +1,48 @@
+{% extends "flatpages/default.html" %}
+{% load censor %}
+{% load custom_tags %}
+
+
+{% block content %}
+
+    {% for post in notificationlist %}
+        {% if post.categoryType == 'NT' %}
+        <article class="media content-section">
+          <div class="media-body">
+            <div class="article-metadata">
+                <a class="text-muted"> {{ post.get_categoryType_display }} автора: </a>
+                <a class="mr-2" href="#"> {{ post.author }}, </a>
+                <a class="text-muted">дата публикации: {{ post.dateCreation|date:"d.m.Y" }}</a>
+            </div>
+              <h4><a class="article-title" href="{{ post.get_absolute_url }}">{{ post.title|censor_w }}</a></h4>
+              <p class="article-content">{{ post.text|truncatechars:21|censor_w }}</p>
+
+          </div>
+        </article>
+        {% endif %}
+    {% endfor %}
+
+{# Добавляем пагинацию на страницу #}
+
+   {# Информация о предыдущих страницах #}
+   {% if page_obj.has_previous %}
+       <a href="?{% url_replace page=1 %}">1</a>
+       {% if page_obj.previous_page_number != 1 %}
+           ...
+           <a href="?{% url_replace page=page_obj.previous_page_number %}">{{ page_obj.previous_page_number }}</a>
+       {% endif %}
+   {% endif %}
+
+   {# Информация о текущей странице #}
+   {{ page_obj.number }}
+
+   {# Информация о следующих страницах #}
+   {% if page_obj.has_next %}
+       <a href="?{% url_replace page=page_obj.next_page_number %}">{{ page_obj.next_page_number }}</a>
+       {% if paginator.num_pages != page_obj.next_page_number %}
+           ...
+           <a href="?{% url_replace page=page_obj.paginator.num_pages %}">{{ page_obj.paginator.num_pages }}</a>
+       {% endif %}
+   {% endif %}
+
+{% endblock content %}
